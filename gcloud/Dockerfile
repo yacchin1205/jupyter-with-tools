@@ -1,6 +1,8 @@
 FROM niicloudoperation/notebook:latest
 
 USER root
+
+# Install gcloud and kubectl
 ENV CLOUD_SDK_VERSION 343.0.0
 RUN apt-get -qqy update && apt-get install -qqy \
         curl \
@@ -33,4 +35,8 @@ RUN apt-get -qqy update && apt-get install -qqy \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version && \
     kubectl version --client
+
+# Install helm
+RUN curl -fsSL -o /tmp/get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
+    chmod 700 /tmp/get_helm.sh && /tmp/get_helm.sh
 USER $NB_USER
